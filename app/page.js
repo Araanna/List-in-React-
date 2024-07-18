@@ -1,69 +1,75 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const Home = () => {
-  const router = useRouter();
-  const [username, setUsername] = useState("");
-  const [address, setAddress] = useState("");
+  const [myList, setMyList] = useState([]);
+  const [name, setName] = useState("");
 
-  const login = () => {
-    const queryString = `name = ${username}`;
-    // router.push(`/about?${queryString}`);
-
-    //Other way to do it :
-    router.push(`/about?name=${username}&address={address}`);
-
-    //Object -Oriented Prog Way of doing it
-    const params = new URLSearchParams();
-    params.append("name", username);
-    params.append("address", address);
-    router.push(`/about?${params}`);
-
-    sessionStorage.setItem('name', username);
-    sessionStorage.setItem('address', address);
-    router.push ('./blogs')
+  const fillList = () => {
+    setMyList(["Makyus", "Razzie", "LaNay"]);
   };
+
+  const addToList = () => {
+    setMyList([...myList, name]);
+  };
+
   return (
     <>
-      <Link href="./about?name=Mela&address=Cagayan de Oro "> About</Link>
-      <br />
-
-      <input
-        className="border-2 border-black  border-solid rounded-md"
-        type="text"
-        value={username}
-        onChange={(e) => {
-          setUsername(e.target.value);
-        }}
-      />
+      <h1>Working with Lists and useEffect () Hook</h1>
       <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md m-5"
-        onClick={login}
+        className="px-[5vh] border-2 border-solid border-black rounded-2xl transform hover:border-blue-300"
+        onClick={fillList}
       >
-        Login
+        Fill List
       </button>
       <br />
-
+      <br />
+      <br />
       <input
-        className="border-2 border-black  border-solid rounded-md"
+        className="px-[2vh] border-2 border-solid border-black rounded-xl text-sm"
         type="text"
-        value={address}
+        placeholder="Enter a name"
+        value={name}
         onChange={(e) => {
-          setAddress(e.target.value);
+          setName(e.target.value);
         }}
       />
 
-      {/* <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md m-5"
-        onClick={() => {
-          router.push("./about");
-        }}
+      <button
+        className="px-[2px] py-[2px] border-2 border-solid border-black rounded-md text-sm m-10  "
+        onClick={addToList}
       >
-        Login
-      </button> */}
+        Add To List
+      </button>
+      <br />
+      <br />
+      <br />
+      {/* This one here is the List */}
+
+      <b>List</b>
+      <ul>
+        {myList.map((student) => {
+          // eslint-disable-next-line react/jsx-key
+          return <li>{student}</li>;
+        })}
+      </ul>
+      <br />
+      <br />
+      <br />
+      {/* This one here is for the table */}
+      <b>Table</b>
+      <table>
+        {myList.map((student) => {
+          // eslint-disable-next-line react/jsx-key
+          return (
+            // eslint-disable-next-line react/jsx-key
+            <tr>
+              <td>{student}</td>
+            </tr>
+          );
+        })}
+      </table>
     </>
   );
 };
